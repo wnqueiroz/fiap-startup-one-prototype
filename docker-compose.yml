@@ -1,0 +1,114 @@
+version: "3"
+
+services:
+  ms-company:
+    build:
+      context: ./packages/ms-company
+      args:
+        NODE_ENV: development
+    command: npm run start:dev
+    volumes:
+      - ./packages/ms-company:/usr/src/app
+      - node_modules_ms_company:/usr/src/app/node_modules
+    ports:
+      - 3001:80
+    depends_on:
+      - postgres
+      - kafka
+    restart: always
+    environment:
+      PORT: 80
+      TYPEORM_CONNECTION: postgres
+      TYPEORM_HOST: postgres
+      TYPEORM_USERNAME: ${TYPEORM_USERNAME}
+      TYPEORM_PASSWORD: ${TYPEORM_PASSWORD}
+      TYPEORM_DATABASE: ms_company
+      TYPEORM_PORT: 5432
+      TYPEORM_SYNCHRONIZE: "true"
+      TYPEORM_ENTITIES: "**/*.entity{.ts,.js}"
+      KAFKA_HOST: host.docker.internal
+      KAFKA_PORT: 9094
+      NODE_ENV: development
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
+  ms-appointment:
+    build:
+      context: ./packages/ms-appointment
+      args:
+        NODE_ENV: development
+    command: npm run start:dev
+    volumes:
+      - ./packages/ms-appointment:/usr/src/app
+      - node_modules_ms_appointment:/usr/src/app/node_modules
+    ports:
+      - 3002:80
+    depends_on:
+      - postgres
+      - kafka
+    restart: always
+    environment:
+      PORT: 80
+      TYPEORM_CONNECTION: postgres
+      TYPEORM_HOST: postgres
+      TYPEORM_USERNAME: ${TYPEORM_USERNAME}
+      TYPEORM_PASSWORD: ${TYPEORM_PASSWORD}
+      TYPEORM_DATABASE: ms_appointment
+      TYPEORM_PORT: 5432
+      TYPEORM_SYNCHRONIZE: "true"
+      TYPEORM_ENTITIES: "**/*.entity{.ts,.js}"
+      KAFKA_HOST: host.docker.internal
+      KAFKA_PORT: 9094
+      NODE_ENV: development
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
+  postgres:
+    image: postgres:13.1
+    ports:
+      - ${TYPEORM_PORT}:5432
+    volumes:
+      - .docker/pg-init-scripts:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: ${TYPEORM_USERNAME}
+      POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
+      POSTGRES_MULTIPLE_DATABASES: ms_company,ms_appointment
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.1.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka:6.1.0
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_LISTENERS: INTERNAL://:9092,OUTSIDE://:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://host.docker.internal:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
+  control-center:
+    image: confluentinc/cp-enterprise-control-center:6.1.0
+    hostname: control-center
+    depends_on:
+      - kafka
+    ports:
+      - "9021:9021"
+    environment:
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: "kafka:9092"
+      CONTROL_CENTER_REPLICATION_FACTOR: 1
+      PORT: 9021
+
+volumes:
+  node_modules_ms_appointment:
+  node_modules_ms_company:
