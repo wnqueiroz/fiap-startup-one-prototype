@@ -1,0 +1,6 @@
+[submodule "packages/ms-company"]
+	path = packages/ms-company
+	url = https://github.com/wnqueiroz/fiap-startup-one-ms-company
+[submodule "packages/ms-appointment"]
+	path = packages/ms-appointment
+	url = https://github.com/wnqueiroz/fiap-startup-one-ms-appointment
