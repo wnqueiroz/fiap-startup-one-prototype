@@ -6,3 +6,7 @@
 	path = packages/ms-appointment
 	url = https://github.com/wnqueiroz/fiap-startup-one-ms-appointment
 	branch = main
+[submodule "packages/ms-user"]
+	path = packages/ms-user
+	url = https://github.com/wnqueiroz/fiap-startup-one-ms-user
+	branch = main

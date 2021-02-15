@@ -1,6 +1,40 @@
 version: "3"
 
 services:
+  ms-user:
+    build:
+      context: ./packages/ms-user
+      args:
+        NODE_ENV: development
+    command: npm run start:dev
+    volumes:
+      - ./packages/ms-user:/usr/src/app
+      - node_modules_ms_user:/usr/src/app/node_modules
+    ports:
+      - 3130:80
+    depends_on:
+      - postgres
+      - kafka
+    restart: always
+    environment:
+      PORT: 80
+      TYPEORM_CONNECTION: postgres
+      TYPEORM_HOST: postgres
+      TYPEORM_USERNAME: ${TYPEORM_USERNAME}
+      TYPEORM_PASSWORD: ${TYPEORM_PASSWORD}
+      TYPEORM_DATABASE: ms_user
+      TYPEORM_PORT: 5432
+      TYPEORM_SYNCHRONIZE: "true"
+      TYPEORM_ENTITIES: "**/*.entity{.ts,.js}"
+      KAFKA_HOST: host.docker.internal
+      KAFKA_PORT: 9094
+      NODE_ENV: development
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
   ms-company:
     build:
       context: ./packages/ms-company
@@ -11,7 +45,7 @@ services:
       - ./packages/ms-company:/usr/src/app
       - node_modules_ms_company:/usr/src/app/node_modules
     ports:
-      - 3001:80
+      - 3131:80
     depends_on:
       - postgres
       - kafka
@@ -29,6 +63,9 @@ services:
       KAFKA_HOST: host.docker.internal
       KAFKA_PORT: 9094
       NODE_ENV: development
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
 
@@ -42,7 +79,7 @@ services:
       - ./packages/ms-appointment:/usr/src/app
       - node_modules_ms_appointment:/usr/src/app/node_modules
     ports:
-      - 3002:80
+      - 3132:80
     depends_on:
       - postgres
       - kafka
@@ -60,6 +97,9 @@ services:
       KAFKA_HOST: host.docker.internal
       KAFKA_PORT: 9094
       NODE_ENV: development
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
 
@@ -72,7 +112,7 @@ services:
     environment:
       POSTGRES_USER: ${TYPEORM_USERNAME}
       POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
-      POSTGRES_MULTIPLE_DATABASES: ms_company,ms_appointment
+      POSTGRES_MULTIPLE_DATABASES: ms_company,ms_appointment,ms_user
 
   zookeeper:
     image: confluentinc/cp-zookeeper:6.1.0
@@ -112,3 +152,4 @@ services:
 volumes:
   node_modules_ms_appointment:
   node_modules_ms_company:
+  node_modules_ms_user:
