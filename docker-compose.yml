@@ -104,15 +104,12 @@ services:
       - "host.docker.internal:172.17.0.1"
 
   postgres:
-    image: postgres:13.1
+    image: wnqueiroz/fiap-startup-one-postgres:13.1
     ports:
       - ${TYPEORM_PORT}:5432
-    volumes:
-      - .docker/pg-init-scripts:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: ${TYPEORM_USERNAME}
       POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
-      POSTGRES_MULTIPLE_DATABASES: ms_company,ms_appointment,ms_user
 
   zookeeper:
     image: confluentinc/cp-zookeeper:6.1.0
