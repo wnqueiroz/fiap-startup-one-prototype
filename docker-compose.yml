@@ -1,4 +1,20 @@
-version: "3"
+version: "3.4"
+
+x-ms-envs: &ms-envs
+  PORT: 80
+  TYPEORM_CONNECTION: postgres
+  TYPEORM_HOST: postgres
+  TYPEORM_USERNAME: ${TYPEORM_USERNAME}
+  TYPEORM_PASSWORD: ${TYPEORM_PASSWORD}
+  TYPEORM_PORT: 5432
+  TYPEORM_SYNCHRONIZE: "true"
+  TYPEORM_ENTITIES: "**/*.entity{.ts,.js}"
+  KAFKA_HOST: host.docker.internal
+  KAFKA_PORT: 9094
+  NODE_ENV: production
+  JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+  JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+  JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
 
 services:
   ms-user:
@@ -17,21 +33,8 @@ services:
       - kafka
     restart: always
     environment:
-      PORT: 80
-      TYPEORM_CONNECTION: postgres
-      TYPEORM_HOST: postgres
-      TYPEORM_USERNAME: ${TYPEORM_USERNAME}
-      TYPEORM_PASSWORD: ${TYPEORM_PASSWORD}
+      <<: *ms-envs
       TYPEORM_DATABASE: ms_user
-      TYPEORM_PORT: 5432
-      TYPEORM_SYNCHRONIZE: "true"
-      TYPEORM_ENTITIES: "**/*.entity{.ts,.js}"
-      KAFKA_HOST: host.docker.internal
-      KAFKA_PORT: 9094
-      NODE_ENV: development
-      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
-      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
-      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
 
@@ -51,21 +54,8 @@ services:
       - kafka
     restart: always
     environment:
-      PORT: 80
-      TYPEORM_CONNECTION: postgres
-      TYPEORM_HOST: postgres
-      TYPEORM_USERNAME: ${TYPEORM_USERNAME}
-      TYPEORM_PASSWORD: ${TYPEORM_PASSWORD}
+      <<: *ms-envs
       TYPEORM_DATABASE: ms_company
-      TYPEORM_PORT: 5432
-      TYPEORM_SYNCHRONIZE: "true"
-      TYPEORM_ENTITIES: "**/*.entity{.ts,.js}"
-      KAFKA_HOST: host.docker.internal
-      KAFKA_PORT: 9094
-      NODE_ENV: development
-      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
-      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
-      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
 
@@ -85,21 +75,8 @@ services:
       - kafka
     restart: always
     environment:
-      PORT: 80
-      TYPEORM_CONNECTION: postgres
-      TYPEORM_HOST: postgres
-      TYPEORM_USERNAME: ${TYPEORM_USERNAME}
-      TYPEORM_PASSWORD: ${TYPEORM_PASSWORD}
+      <<: *ms-envs
       TYPEORM_DATABASE: ms_appointment
-      TYPEORM_PORT: 5432
-      TYPEORM_SYNCHRONIZE: "true"
-      TYPEORM_ENTITIES: "**/*.entity{.ts,.js}"
-      KAFKA_HOST: host.docker.internal
-      KAFKA_PORT: 9094
-      NODE_ENV: development
-      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
-      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
-      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
 
