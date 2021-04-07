@@ -80,6 +80,27 @@ services:
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
 
+  ms-gamification:
+    build:
+      context: ./packages/ms-gamification
+      args:
+        NODE_ENV: development
+    command: npm run start:dev
+    volumes:
+      - ./packages/ms-gamification:/usr/src/app
+      - node_modules_ms_gamification:/usr/src/app/node_modules
+    ports:
+      - 3133:80
+    depends_on:
+      - postgres
+      - kafka
+    restart: always
+    environment:
+      <<: *ms-envs
+      TYPEORM_DATABASE: ms_gamification
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
   postgres:
     image: wnqueiroz/fiap-startup-one-postgres:13.1
     ports:
@@ -127,3 +148,4 @@ volumes:
   node_modules_ms_appointment:
   node_modules_ms_company:
   node_modules_ms_user:
+  node_modules_ms_gamification:

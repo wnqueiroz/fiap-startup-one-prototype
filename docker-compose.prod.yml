@@ -59,6 +59,20 @@ services:
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
 
+  ms-gamification:
+    image: wnqueiroz/fiap-startup-one-ms-gamification:latest
+    ports:
+      - 3133:80
+    depends_on:
+      - postgres
+      - kafka
+    restart: always
+    environment:
+      <<: *ms-envs
+      TYPEORM_DATABASE: ms_gamification
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
   postgres:
     image: wnqueiroz/fiap-startup-one-postgres:13.1
     ports:

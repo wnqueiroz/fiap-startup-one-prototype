@@ -10,3 +10,7 @@
 	path = packages/ms-user
 	url = https://github.com/wnqueiroz/fiap-startup-one-ms-user
 	branch = main
+[submodule "packages/ms-gamification"]
+	path = packages/ms-gamification
+	url = https://github.com/wnqueiroz/fiap-startup-one-ms-gamification
+	branch = main

@@ -18,6 +18,12 @@ git checkout main
 git pull --rebase
 cd ../../
 
+cd packages/ms-gamification
+git stash -u
+git checkout main
+git pull --rebase
+cd ../../
+
 git checkout main
 git add packages/
 git commit -m "chore: updating submodules revisions"
