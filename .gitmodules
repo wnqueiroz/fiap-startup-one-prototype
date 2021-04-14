@@ -14,3 +14,7 @@
 	path = packages/ms-gamification
 	url = https://github.com/wnqueiroz/fiap-startup-one-ms-gamification
 	branch = main
+[submodule "packages/mobile-app"]
+	path = packages/mobile-app
+	url = https://github.com/wnqueiroz/fiap-startup-one-mobile-app
+	branch = main
