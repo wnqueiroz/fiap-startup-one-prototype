@@ -132,18 +132,6 @@ services:
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
 
-  control-center:
-    image: confluentinc/cp-enterprise-control-center:6.1.0
-    hostname: control-center
-    depends_on:
-      - kafka
-    ports:
-      - "9021:9021"
-    environment:
-      CONTROL_CENTER_BOOTSTRAP_SERVERS: "kafka:9092"
-      CONTROL_CENTER_REPLICATION_FACTOR: 1
-      PORT: 9021
-
 volumes:
   node_modules_ms_appointment:
   node_modules_ms_company:
