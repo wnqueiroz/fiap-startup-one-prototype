@@ -1,0 +1,1638 @@
+{
+	"info": {
+		"_postman_id": "8ba13e24-ddd7-492e-9f5a-83f2b745973f",
+		"name": "fiap-startup-one-prototype",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01. Seeders",
+			"item": [
+				{
+					"name": "01. Check MS Status",
+					"item": [
+						{
+							"name": "ms-user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ms-user}}/swagger",
+									"protocol": "http",
+									"host": [
+										"{{ms-user}}"
+									],
+									"path": [
+										"swagger"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ms-appointment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ms-appointment}}/swagger",
+									"protocol": "http",
+									"host": [
+										"{{ms-appointment}}"
+									],
+									"path": [
+										"swagger"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ms-gamification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ms-gamification}}/swagger",
+									"protocol": "http",
+									"host": [
+										"{{ms-gamification}}"
+									],
+									"path": [
+										"swagger"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ms-company",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{ms-company}}/swagger",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"swagger"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "02. Create Initial Data",
+					"item": [
+						{
+							"name": "1. Create User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const {",
+											"    access_token",
+											"} = JSON.parse(responseBody);",
+											"",
+											"pm.collectionVariables.set(\"access_token\", access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"William Queiroz\",\n    \"email\": \"wnqueiroz@outlook.com\",\n    \"password\": \"123456\",\n    \"passwordConfirmation\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-user}}/v1/users/signup",
+									"protocol": "http",
+									"host": [
+										"{{ms-user}}"
+									],
+									"path": [
+										"v1",
+										"users",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Get Me",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-user}}/v1/users/me",
+									"protocol": "http",
+									"host": [
+										"{{ms-user}}"
+									],
+									"path": [
+										"v1",
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create Company",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const {",
+											"    id",
+											"} = JSON.parse(responseBody);",
+											"",
+											"pm.collectionVariables.set(\"id_company\", id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Barber Shop S/A\",\n    \"address\": \"Av. Paulista, 100 - São Paulo/SP\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-company}}/v1/companies",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"v1",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Create Service",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const {",
+											"    id",
+											"} = JSON.parse(responseBody);",
+											"",
+											"pm.collectionVariables.set(\"id_service\", id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Cortar Cabelo\",\n    \"price\": 60\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-company}}/v1/companies/{{id_company}}/services",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"v1",
+										"companies",
+										"{{id_company}}",
+										"services"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5.1 Create Service Period",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"startTime\": \"10:30\",\n  \"endTime\": \"11:30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-company}}/v1/services/{{id_service}}/periods",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"v1",
+										"services",
+										"{{id_service}}",
+										"periods"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5.2 Create Service Period",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"startTime\": \"11:30\",\n  \"endTime\": \"12:30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-company}}/v1/services/{{id_service}}/periods",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"v1",
+										"services",
+										"{{id_service}}",
+										"periods"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5.3 Create Service Period",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"startTime\": \"12:30\",\n  \"endTime\": \"13:30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-company}}/v1/services/{{id_service}}/periods",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"v1",
+										"services",
+										"{{id_service}}",
+										"periods"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "6. Create Service",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const {",
+											"    id",
+											"} = JSON.parse(responseBody);",
+											"",
+											"pm.environment.set(\"id_service\", id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Fazer a barba\",\n    \"price\": 45\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-company}}/v1/companies/{{id_company}}/services",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"v1",
+										"companies",
+										"{{id_company}}",
+										"services"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "6.1 Create Service Period",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"startTime\": \"10:30\",\n  \"endTime\": \"11:30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-company}}/v1/services/{{id_service}}/periods",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"v1",
+										"services",
+										"{{id_service}}",
+										"periods"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "6.2 Create Service Period",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"startTime\": \"11:30\",\n  \"endTime\": \"12:30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-company}}/v1/services/{{id_service}}/periods",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"v1",
+										"services",
+										"{{id_service}}",
+										"periods"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "6.3 Create Service Period",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"startTime\": \"12:30\",\n  \"endTime\": \"13:30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-company}}/v1/services/{{id_service}}/periods",
+									"protocol": "http",
+									"host": [
+										"{{ms-company}}"
+									],
+									"path": [
+										"v1",
+										"services",
+										"{{id_service}}",
+										"periods"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "7.1 Create Coupon",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Vale R$ 10,00 de desconto.\",\n    \"description\": \"Ganhe R$ 10,00 de desconto no seu próximo compromisso.\",\n    \"credits\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-gamification}}/v1/coupons",
+									"protocol": "http",
+									"host": [
+										"{{ms-gamification}}"
+									],
+									"path": [
+										"v1",
+										"coupons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "7.2 Create Coupon",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Vale R$ 20,00 de desconto.\",\n    \"description\": \"Ganhe R$ 20,00 de desconto no seu próximo compromisso.\",\n    \"credits\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-gamification}}/v1/coupons",
+									"protocol": "http",
+									"host": [
+										"{{ms-gamification}}"
+									],
+									"path": [
+										"v1",
+										"coupons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "7.3 Create Coupon",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Vale R$ 30,00 de desconto.\",\n    \"description\": \"Ganhe R$ 30,00 de desconto no seu próximo compromisso.\",\n    \"credits\": 3\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-gamification}}/v1/coupons",
+									"protocol": "http",
+									"host": [
+										"{{ms-gamification}}"
+									],
+									"path": [
+										"v1",
+										"coupons"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "03. Create Fake Users",
+					"item": [
+						{
+							"name": "1. Create User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const {",
+											"    access_token",
+											"} = JSON.parse(responseBody);",
+											"",
+											"pm.collectionVariables.set(\"access_token\", access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"123456\",\n    \"passwordConfirmation\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{ms-user}}/v1/users/signup",
+									"protocol": "http",
+									"host": [
+										"{{ms-user}}"
+									],
+									"path": [
+										"v1",
+										"users",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "02. Prototype",
+			"item": [
+				{
+					"name": "ms-company",
+					"item": [
+						{
+							"name": "companies",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3131/v1/companies",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3131",
+											"path": [
+												"v1",
+												"companies"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"idUser\": \"a59a5237-1883-4a85-8097-a287c0211fa5\",\n    \"name\": \"Barber Shop S/A\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3001/v1/companies",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3001",
+											"path": [
+												"v1",
+												"companies"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get All Services",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3001/v1/companies/:id/services",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3001",
+											"path": [
+												"v1",
+												"companies",
+												":id",
+												"services"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "a0dd3f2c-1751-42c0-8a36-0d71bb4cc9b2"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Service",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Cortar cabelo\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3001/v1/companies/:id/services",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3001",
+											"path": [
+												"v1",
+												"companies",
+												":id",
+												"services"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "a0dd3f2c-1751-42c0-8a36-0d71bb4cc9b2"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "services",
+							"item": [
+								{
+									"name": "Get One By ID",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Cortar cabelo\",\n    \"idCompany\": \"fd969c75-e410-4b70-b59b-1b3068d630e3\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3001/v1/services/:id",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3001",
+											"path": [
+												"v1",
+												"services",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "56a9930c-bf46-4561-b89e-6a59cb1d8ed1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete One By ID",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3001/v1/services/:id",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3001",
+											"path": [
+												"v1",
+												"services",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "179113f1-7e4a-4047-b4ca-71b9f5d1cf6d"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update One By ID",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Cortar Cabelo\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3001/v1/services/:id",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3001",
+											"path": [
+												"v1",
+												"services",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "56a9930c-bf46-4561-b89e-6a59cb1d8ed1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Periods By ID",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"startTime\": \"11:31\",\n    \"endTime\": \"12:30\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3001/v1/services/:id/periods",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3001",
+											"path": [
+												"v1",
+												"services",
+												":id",
+												"periods"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "b8f81850-99b4-4903-a9df-5b24e17288d2"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ms-appointment",
+					"item": [
+						{
+							"name": "appointments",
+							"item": [
+								{
+									"name": "Get Next",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://{{ms-appointment}}/v1/appointments/next",
+											"protocol": "http",
+											"host": [
+												"{{ms-appointment}}"
+											],
+											"path": [
+												"v1",
+												"appointments",
+												"next"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get All",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://{{ms-appointment}}/v1/appointments",
+											"protocol": "http",
+											"host": [
+												"{{ms-appointment}}"
+											],
+											"path": [
+												"v1",
+												"appointments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Finish",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://{{ms-appointment}}/v1/appointments/:id/finish",
+											"protocol": "http",
+											"host": [
+												"{{ms-appointment}}"
+											],
+											"path": [
+												"v1",
+												"appointments",
+												":id",
+												"finish"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "dc29458c-ce3f-466e-aa10-c1335df5f5c6"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "services",
+							"item": [
+								{
+									"name": "Get Next",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://{{ms-appointment}}/v1/services?name=bar",
+											"protocol": "http",
+											"host": [
+												"{{ms-appointment}}"
+											],
+											"path": [
+												"v1",
+												"services"
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "bar"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get All",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://{{ms-appointment}}/v1/appointments",
+											"protocol": "http",
+											"host": [
+												"{{ms-appointment}}"
+											],
+											"path": [
+												"v1",
+												"appointments"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ms-gamification",
+					"item": [
+						{
+							"name": "users",
+							"item": [
+								{
+									"name": "Get Me",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{ms-gamification}}/v1/users/me",
+											"protocol": "http",
+											"host": [
+												"{{ms-gamification}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"me"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Test Finish",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{ms-gamification}}/v1/users/finishAppointment",
+											"protocol": "http",
+											"host": [
+												"{{ms-gamification}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"finishAppointment"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "ranking",
+							"item": [
+								{
+									"name": "Get All",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{ms-gamification}}/v1/ranking",
+											"protocol": "http",
+											"host": [
+												"{{ms-gamification}}"
+											],
+											"path": [
+												"v1",
+												"ranking"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "coupons",
+							"item": [
+								{
+									"name": "Get All",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "http://{{ms-gamification}}/v1/coupons/availables",
+											"protocol": "http",
+											"host": [
+												"{{ms-gamification}}"
+											],
+											"path": [
+												"v1",
+												"coupons",
+												"availables"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Vale R$ 10,00 de desconto.\",\n    \"description\": \"Ganhe R$ 10,00 de desconto no seu próximo compromisso.\",\n    \"validDays\": 30\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{ms-gamification}}/v1/coupons",
+											"protocol": "http",
+											"host": [
+												"{{ms-gamification}}"
+											],
+											"path": [
+												"v1",
+												"coupons"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "coupons",
+							"item": [
+								{
+									"name": "Get Rescued",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://{{ms-gamification}}/v1/coupons/rescued",
+											"protocol": "http",
+											"host": [
+												"{{ms-gamification}}"
+											],
+											"path": [
+												"v1",
+												"coupons",
+												"rescued"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ms-user",
+					"item": [
+						{
+							"name": "users",
+							"item": [
+								{
+									"name": "Sign In",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const {",
+													"    access_token",
+													"} = JSON.parse(responseBody);",
+													"",
+													"pm.environment.set(\"access_token\", access_token);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"wnqueiroz@outlook.com\",\n    \"password\": \"123456\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{ms-user}}/v1/users/signin",
+											"protocol": "http",
+											"host": [
+												"{{ms-user}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"signin"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Sign Up",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const {",
+													"    access_token",
+													"} = JSON.parse(responseBody);",
+													"",
+													"pm.environment.set(\"access_token\", access_token);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"William Queiroz\",\n    \"email\": \"wnqueiroz2@outlook.com\",\n    \"password\": \"123456\",\n    \"passwordConfirmation\": \"123456\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{ms-user}}/v1/users/signup",
+											"protocol": "http",
+											"host": [
+												"{{ms-user}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"signup"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ms-user",
+			"value": "localhost:3130"
+		},
+		{
+			"key": "ms-company",
+			"value": "localhost:3131"
+		},
+		{
+			"key": "ms-appointment",
+			"value": "localhost:3132"
+		},
+		{
+			"key": "ms-gamification",
+			"value": "localhost:3133"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "id_company",
+			"value": ""
+		},
+		{
+			"key": "id_service",
+			"value": ""
+		}
+	]
+}
